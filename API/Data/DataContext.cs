@@ -10,9 +10,8 @@ namespace API.Data
             
         }
         
-        DbSet<Student> students { get; set; }
-        DbSet<Admin> admins { get; set; }
-        DbSet<Article> articles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
     }
 }

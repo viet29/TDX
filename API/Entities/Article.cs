@@ -9,8 +9,5 @@
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set;}
 
-        public string AdminId { get; set; }
-        public Admin Admin { get; set; }
-
     }
 }
