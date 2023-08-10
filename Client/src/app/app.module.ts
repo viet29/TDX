@@ -1,32 +1,37 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './components/nav/nav.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { HomeComponent } from './pages/user/home/home.component';
-import { RouterModule, Routes } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ToastrModule } from 'ngx-toastr';
 
-const routes: Routes = [
-  { path: '', component: HomeComponent }
-]
+import { NavComponent } from './components/nav/nav.component';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './pages/user/home/home.component';
+import { ArticleListComponent } from './pages/user/article-list/article-list.component';
+import { ArticleDetailsComponent } from './pages/user/article-details/article-details.component';
+import { AboutsComponent } from './pages/user/abouts/abouts.component';
+import { ErrorComponent } from './pages/errors/error/error.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     CarouselComponent,
-    HomeComponent
+    HomeComponent,
+    ArticleListComponent,
+    ArticleDetailsComponent,
+    AboutsComponent,
+    ErrorComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -34,9 +39,14 @@ const routes: Routes = [
     BrowserAnimationsModule,
     NgbModule,
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

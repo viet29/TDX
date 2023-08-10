@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class StudentsController : BaseController
+    public class StudentsController : BaseApiController
     {
 
         private readonly DataContext _context;

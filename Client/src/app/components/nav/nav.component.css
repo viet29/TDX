@@ -1,3 +1,27 @@
 .dropdown, a {
     cursor: pointer;
 }
+
+.blank {
+    margin-bottom: 70px;
+}
+
+.fixed {
+    position: fixed;
+    width: 100%;
+    transition: 0.2s linear;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1030;
+}
+
+.notFixed {
+    position: static;
+    transition: 0.2s linear;
+    top: -50px;
+}
+
+.modal.fade { background: rgba(0, 0, 0, 0.5); }
+
+.modal-backdrop.fade { opacity: 0; }

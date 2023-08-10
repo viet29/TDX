@@ -1,6 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -12,23 +14,27 @@ export class NavComponent implements OnInit {
   modelLogin: any = {};
   modelRegister: any = {};
 
-  modalRegister?: BsModalRef;
-  modalLogin?: BsModalRef;
+  modalRegister?: BsModalRef | null;
+  modalLogin?: BsModalRef | null;
 
-  constructor(protected accountService: AccountService, private modalService: BsModalService) { }
+  navbarFixed: boolean = false;
+
+  constructor(protected accountService: AccountService,
+    private modalService: BsModalService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
   }
 
+  // Account Management
+
   login() {
     this.accountService.login(this.modelLogin).subscribe({
-      next: response => {
+      next: _ => {
+        this.toastr.success("Đăng nhập thành công!")
         this.modalLogin?.hide();
-
-      },
-      error: err => {
-        console.log(err);
       }
     })
   }
@@ -36,30 +42,48 @@ export class NavComponent implements OnInit {
   register() {
     // console.log(this.modelRegister)
     this.accountService.register(this.modelRegister).subscribe({
-      next: response => {
-        console.log(response);
+      next: () => {
+        // console.log(response);
         this.modalRegister?.hide();
       },
-      error: err => console.log(err)
+      error: err => {
+        console.log(err);
+        this.toastr.error(err.error);
+      }
     })
   }
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
+
+  // Modal Management
 
   openRegisterModal(template: TemplateRef<any>) {
     if (this.modalLogin) {
-      this.modalLogin.hide();
+      this.closeModal(this.modalLogin);
     }
     this.modalRegister = this.modalService.show(template);
   }
 
   openLoginModal(template: TemplateRef<any>) {
     if (this.modalRegister) {
-      this.modalRegister.hide();
+      this.closeModal(this.modalRegister);
     }
     this.modalLogin = this.modalService.show(template);
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll() {
+    if (window.scrollY > 100)
+      this.navbarFixed = true;
+    else
+      this.navbarFixed = false;
+  }
+
+  closeModal(modal: BsModalRef | null) {
+    modal!.hide();
+    modal = null;
   }
 
 }
