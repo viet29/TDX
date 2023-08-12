@@ -1,90 +1,79 @@
-﻿using API.Data;
-using API.DTO;
+﻿using API.DTO;
 using API.Entities;
 using API.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+public class AccountController : BaseApiController
 {
-    public class AccountController : BaseApiController
+    private readonly ITokenService tokenService;
+    private readonly IMapper mapper;
+    private readonly UserManager<User> userManager;
+    private readonly SignInManager<User> signInManager;
+    
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IMapper mapper)
     {
-        private readonly DataContext _context;
-        private readonly ITokenService _tokenService;
+        this.signInManager = signInManager;
+        this.userManager = userManager;
+        this.mapper = mapper;
+        this.tokenService = tokenService; 
+    }
 
-        public AccountController(DataContext context, ITokenService tokenService)
+    [HttpPost("register")]
+    public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
+    {
+        if (await UserExists(registerDto.Username)) 
+            return BadRequest("Tên tài khoản đã được sử dụng!");
+
+        var user = mapper.Map<User>(registerDto);
+
+        user.UserName = registerDto.Username.ToLower();
+
+        var result = await userManager.CreateAsync(user, registerDto.Password);
+
+        if (!result.Succeeded) return BadRequest(result.Errors);
+
+        var roleResult = await userManager.AddToRoleAsync(user, "Student");
+
+        if (!roleResult.Succeeded) return BadRequest(result.Errors);
+
+        return new UserDTO
         {
-            this._context = context;
-            this._tokenService = tokenService;
-        }
+            Username = user.UserName,
+            FullName = user.FullName,
+            Token = await tokenService.CreateToken(user),
+        };
+    }
 
-        [HttpPost("register")] // POST: api/account/register 
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
+    [HttpPost("login")]
+    public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
+    {
+        var user = await userManager.Users
+            .Include(p => p.AvatarImg)
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+
+        if (user == null) return Unauthorized("Tài khoản hoặc mật khẩu không chính xác!");
+
+        var result = await signInManager
+            .CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+        if (!result.Succeeded) return Unauthorized("Tài khoản hoặc mật khẩu không chính xác!");
+
+        return new UserDTO
         {
-            if (await UserExists(registerDto.Username))
-            {
-                return BadRequest("Tài khoản đã tồn tại!");
-            }
+            Username = user.UserName,
+            Token = await tokenService.CreateToken(user),
+            AvatarUrl = user.AvatarImg?.Url,
+            FullName = user.FullName
+        };
+    }
 
-            using var hmac = new HMACSHA512();
-
-            var user = new User
-            {
-                Username = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return new UserDTO
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            };
-        }
-        
-        [HttpPost("login")] // POST: api/account/login 
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x =>  x.Username == loginDto.Username);
-
-            if (user == null)
-            {
-                return Unauthorized("Invalid Username!");
-            }
-
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-            if(!user.PasswordHash.SequenceEqual(computedHash)) {
-                return Unauthorized("Invalid Password!");
-            }
-
-            return new UserDTO
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            };
-        }
-
-        [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            return await _context.Users.FindAsync(id);
-        } 
-
-
-        private async Task<bool> UserExists (string username)
-        {
-            return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
-        } 
-
-
+    private async Task<bool> UserExists(string username)
+    {
+        return await userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
     }
 }

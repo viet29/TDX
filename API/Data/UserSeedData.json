@@ -1,0 +1,137 @@
+[
+  {
+    "UserName": "Lisa",
+    "Gender": "Nữ",
+    "DOB": "1956-07-22",
+    "Fullname": "Lisa",
+    "CreatedAt": "2020-06-24",
+    "LastActive": "2020-06-21",
+    "City": "Greenbush",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/women/54.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Karen",
+    "Gender": "Nữ",
+    "DOB": "1995-10-12",
+    "Fullname": "Karen",
+    "CreatedAt": "2019-12-09",
+    "LastActive": "2020-05-06",
+    "City": "Celeryville",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/women/50.jpg"
+      }
+  },
+  {
+    "UserName": "Margo",
+    "Gender": "Nữ",
+    "DOB": "1959-01-24",
+    "Fullname": "Margo",
+    "CreatedAt": "2019-08-10",
+    "LastActive": "2020-05-12",
+    "City": "Rosewood",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/women/14.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Lois",
+    "Gender": "Nữ",
+    "DOB": "1988-06-22",
+    "Fullname": "Lois",
+    "CreatedAt": "2019-04-24",
+    "LastActive": "2020-06-17",
+    "City": "Orviston",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/women/11.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Ruthie",
+    "Gender": "Nữ",
+    "DOB": "1956-01-12",
+    "Fullname": "Ruthie",
+    "CreatedAt": "2019-04-30",
+    "LastActive": "2020-06-21",
+    "City": "Germanton",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/women/84.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Todd",
+    "Gender": "male",
+    "DOB": "1950-02-07",
+    "Fullname": "Todd",
+    "CreatedAt": "2019-04-29",
+    "LastActive": "2020-05-16",
+    "City": "Cliff",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/men/90.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Porter",
+    "Gender": "male",
+    "DOB": "1967-04-09",
+    "Fullname": "Porter",
+    "CreatedAt": "2020-04-05",
+    "LastActive": "2020-06-23",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/men/87.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Mayo",
+    "Gender": "male",
+    "DOB": "1990-03-23",
+    "Fullname": "Mayo",
+    "CreatedAt": "2020-03-14",
+    "LastActive": "2020-05-17",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/men/57.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Skinner",
+    "Gender": "male",
+    "DOB": "1952-12-01",
+    "Fullname": "Skinner",
+    "CreatedAt": "2019-01-28",
+    "LastActive": "2020-06-07",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/men/11.jpg"
+      }
+    
+  },
+  {
+    "UserName": "Davis",
+    "Gender": "male",
+    "DOB": "1978-03-20",
+    "Fullname": "Davis",
+    "CreatedAt": "2020-02-25",
+    "LastActive": "2020-06-11",
+    "AvatarImg": 
+      {
+        "Url": "https://randomuser.me/api/portraits/men/93.jpg"
+      }
+    
+  }
+]

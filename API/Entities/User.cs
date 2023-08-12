@@ -1,23 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using API.Extensions;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
-    public class User
+    [Table("User")]
+    public class User : IdentityUser<int>
     {
+        public string FullName { get; set; } 
+        public DateOnly DOB { get; set; }
+        public string Gender { get; set; }
+        public string City { get; set; }
 
-        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime LastActive { get; set;} = DateTime.Now;
 
-        public string Username { get; set; }
+        public Photo AvatarImg { get; set; }
 
-        public byte[] PasswordHash { get; set; }
+        public ICollection<Article> Articles { get; set; }
 
-        public byte[] PasswordSalt { get; set; }
-
-        public string Fullname { get; set; } 
-
-        public DateTime DOB { get; set; }
-
-        public string Description { get; set; }
+        public  ICollection<UserRole> UserRoles { get; set; }
     }
 }
