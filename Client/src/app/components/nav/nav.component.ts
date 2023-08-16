@@ -64,14 +64,14 @@ export class NavComponent implements OnInit {
     if (this.modalLogin) {
       this.closeModal(this.modalLogin);
     }
-    this.modalRegister = this.modalService.show(template);
+    this.modalRegister = this.modalService.show(template, { class: 'modal-lg' });
   }
 
   openLoginModal(template: TemplateRef<any>) {
     if (this.modalRegister) {
       this.closeModal(this.modalRegister);
     }
-    this.modalLogin = this.modalService.show(template);
+    this.modalLogin = this.modalService.show(template, { class: 'modal-lg' });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll() {

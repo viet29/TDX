@@ -1,9 +1,12 @@
 export interface Member {
-    username: string
-    password: string
-    repeatPassword: string
-    email: string
-    phoneNumber: string
-    gender: string
-    city: string
+    id: number;
+    username: string;
+    email: string;
+    avatarUrl: string;
+    dob: Date;
+    fullName: string;
+    gender: string;
+    city: string;
+    createdAt: string;
+    lastActive: string;
 }

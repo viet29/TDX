@@ -6,21 +6,28 @@ import { ArticleDetailsComponent } from './pages/user/article-details/article-de
 import { AboutsComponent } from './pages/user/abouts/abouts.component';
 import { authGuard } from './guards/auth.guard';
 import { ErrorComponent } from './pages/errors/error/error.component';
+import { AdminPanelComponent } from './pages/admin/admin-panel/admin-panel.component';
+import { adminGuard } from './guards/admin.guard';
+import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'articles', component: ArticleListComponent },
   { path: 'articles/:id', component: ArticleDetailsComponent },
   { path: 'about-us', component: AboutsComponent },
-  // {
-  //   path: '', runGuardsAndResolvers: 'always', canActivate: [authGuard], children: [
+  {
+    path: '', runGuardsAndResolvers: 'always',
+    canActivate: [authGuard],
+    children: [
+      { path: 'profile', component: UserProfileComponent },
+      { path: 'admin', component: AdminPanelComponent, canActivate: [adminGuard] },
 
-
-  //   ]
-  // },
+    ]
+  },
   { path: 'errors', component: ErrorComponent },
   // { path: 'error'},
-  { path: '**', component: HomeComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

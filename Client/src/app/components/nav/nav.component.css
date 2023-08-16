@@ -25,3 +25,9 @@
 .modal.fade { background: rgba(0, 0, 0, 0.5); }
 
 .modal-backdrop.fade { opacity: 0; }
+
+.avatar {
+    max-height: 35px;
+    border: 1px solid white;
+    display: inline;
+}

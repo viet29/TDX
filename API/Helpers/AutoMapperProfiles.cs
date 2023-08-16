@@ -13,6 +13,10 @@ namespace API.Helpers
             CreateMap<Photo, PhotoDTO>();
 
             CreateMap<RegisterDTO, User>();
+
+            CreateMap<ArticleRequest, Article>();
+            CreateMap<Article, ArticleResponse>().ForMember(des => des.AuthorName, opt => opt.MapFrom(src => src.User.FullName));
+
             //CreateMap<MemberUpdateDto, AppUser>();
 
 

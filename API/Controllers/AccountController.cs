@@ -43,7 +43,7 @@ public class AccountController : BaseApiController
 
         return new UserDTO
         {
-            Username = user.UserName,
+            UserName = user.UserName,
             FullName = user.FullName,
             Token = await tokenService.CreateToken(user),
         };
@@ -65,7 +65,7 @@ public class AccountController : BaseApiController
 
         return new UserDTO
         {
-            Username = user.UserName,
+            UserName = user.UserName,
             Token = await tokenService.CreateToken(user),
             AvatarUrl = user.AvatarImg?.Url,
             FullName = user.FullName

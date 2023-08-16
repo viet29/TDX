@@ -1,0 +1,22 @@
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Tài khoản</th>
+                <th style="width: 40%;">Họ tên</th>
+                <th style="width: 40%;">Vai trò</th>
+                <th style="width: 30%;"></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of users">
+                <td>{{u.userName}}</td>
+                <td>{{u.fullName}}</td>
+                <td>{{u.roles.join(', ')}}</td>
+                <td><button class="btn btn-success" (click)="openEditModal(u)">Sửa</button></td>
+                <td><button class="btn btn-danger" (click)="openDeleteConfirmModal(u)">Xoá</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

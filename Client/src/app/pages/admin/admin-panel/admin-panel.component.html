@@ -1,0 +1,26 @@
+<div class="container">
+    <h2 class="my-4"> Quản lý chung</h2>
+
+    <div class="tab-panel">
+        <tabset class="member-tabset">
+
+            <tab heading="Người dùng" *appHasRole="['Admin']">
+                <div class="container">
+                    <app-user-management></app-user-management>
+                </div>
+            </tab>
+
+            <tab heading="Tin tức" *appHasRole="['Admin', 'Manager']">
+                <div class="container">
+
+                </div>
+            </tab>
+
+            <tab heading="Cuộc thi" *appHasRole="['Admin', 'Manager', 'Teacher']">
+                <div class="container">
+
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>

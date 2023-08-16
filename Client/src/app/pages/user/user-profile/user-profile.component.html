@@ -1,0 +1,70 @@
+<div class="container" style="margin-top: 30px;">
+    <div class="row" *ngIf="user">
+        <div class="col-4">
+            <h1>Trang cá nhân:</h1>
+        </div>
+        <div class="col-8">
+            <div class="alert alert-info pb-0">
+                <p><strong>Lưu ý: </strong>Bạn đã thay đổi thông tin. Mọi thông tin chưa được lưu sẽ biến mất</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <img src="{{user.avatarUrl || '../../../../../../assets/images/user.png'}}" alt="{{user.fullName}}"
+                    class="card-img-top img-thumbnail">
+                <div class="card-body">
+                    <div>
+                        <strong>Thành phố:</strong>
+                        <p>{{user.city}}</p>
+                    </div>
+                    <div>
+                        <strong>Ngày sinh:</strong>
+                        <p>{{user.dob}}</p>
+                    </div>
+                    <!-- <div>
+                    <strong>Last active:</strong>
+                    <p>{{user.lastActive}}</p>
+                </div> -->
+                    <div>
+                        <strong>Ngày tham gia:</strong>
+                        <p>{{user.createdAt | date:'dd MMM yyyy'}}</p>
+                    </div>
+                </div>
+                <!-- <div class="card-footer">
+                <button [disabled]="!editForm.dirty" type="submit" form="editForm" class="btn btn-success col-12">Save
+                    Changes</button>
+            </div> -->
+            </div>
+        </div>
+
+        <div class="col-8">
+            <tabset class="user-tabset">
+                <tab heading="Thông tin">
+                    <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+                        <h4 class="mt-2">Mô tả</h4>
+                        <textarea class="form-control" name="introduction" rows="6"></textarea>
+                        <h4 class="mt-2">Looking for</h4>
+                        <textarea class="form-control" name="lookingFor" rows="6"></textarea>
+                        <h4>Interests</h4>
+                        <textarea class="form-control" name="interests" rows="6"></textarea>
+                        <h4 class="mt-2">Location Details: </h4>
+                        <div class="d-flex flex-row align-items-center">
+                            <label for="city">City: </label>
+                            <input [(ngModel)]="user.city" type="text" name="city" class="form-control mx-2">
+                            <label for="city">Country: </label>
+                            <input type="text" name="country" class="form-control mx-2">
+                        </div>
+                    </form>
+
+                </tab>
+
+                <tab heading="Đổi mật khẩu">
+
+                </tab>
+                <tab heading="Edit Photos">
+                    <!-- <app-photo-editor [user]="user"></app-photo-editor> -->
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

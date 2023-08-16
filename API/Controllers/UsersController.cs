@@ -14,7 +14,7 @@ using API.DTO;
 
 namespace API.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin, Manager")]
     public class UsersController : BaseApiController
     {
         private readonly IUserRepository userRepository;
@@ -40,7 +40,7 @@ namespace API.Controllers
         {
             var user = await userRepository.GetMemberByUsernameAsync(username);
 
-            return mapper.Map<MemberDTO>(user);
+            return user;
         }
 
 

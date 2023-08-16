@@ -19,6 +19,13 @@ import { ArticleDetailsComponent } from './pages/user/article-details/article-de
 import { AboutsComponent } from './pages/user/abouts/abouts.component';
 import { ErrorComponent } from './pages/errors/error/error.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { AdminPanelComponent } from './pages/admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './directives/has-role.directive';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { UserManagementComponent } from './components/admin/user-management/user-management.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { EditUserModalComponent } from './components/admin/modals/edit-user-modal/edit-user-modal.component';
+import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ArticleListComponent,
     ArticleDetailsComponent,
     AboutsComponent,
-    ErrorComponent
+    ErrorComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    EditUserModalComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,10 +54,13 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
-    })
+    }),
+    TabsModule.forRoot()
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+
   ],
   bootstrap: [AppComponent]
 })

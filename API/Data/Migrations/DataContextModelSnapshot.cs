@@ -52,7 +52,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Article", (string)null);
+                    b.ToTable("Article");
                 });
 
             modelBuilder.Entity("API.Entities.Photo", b =>
@@ -69,15 +69,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Photo", (string)null);
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("API.Entities.Role", b =>
@@ -121,6 +115,9 @@ namespace API.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AvatarImgId")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -141,7 +138,7 @@ namespace API.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Fullname")
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
@@ -184,6 +181,8 @@ namespace API.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AvatarImgId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -310,15 +309,13 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Entities.Photo", b =>
+            modelBuilder.Entity("API.Entities.User", b =>
                 {
-                    b.HasOne("API.Entities.User", "User")
-                        .WithOne("AvatarImg")
-                        .HasForeignKey("API.Entities.Photo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("API.Entities.Photo", "AvatarImg")
+                        .WithMany()
+                        .HasForeignKey("AvatarImgId");
 
-                    b.Navigation("User");
+                    b.Navigation("AvatarImg");
                 });
 
             modelBuilder.Entity("API.Entities.UserRole", b =>
@@ -384,8 +381,6 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.User", b =>
                 {
                     b.Navigation("Articles");
-
-                    b.Navigation("AvatarImg");
 
                     b.Navigation("UserRoles");
                 });
