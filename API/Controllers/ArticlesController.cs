@@ -10,23 +10,27 @@ using API.Entities;
 using API.Repositories;
 using API.Interfaces;
 using API.DTO;
+using Microsoft.AspNetCore.Authorization;
+using API.Extensions;
 
 namespace API.Controllers
 {
     public class ArticlesController : BaseApiController
     {
         private readonly IArticleRepository articleRepository;
+        private readonly IUserRepository userRepository;
 
-        public ArticlesController(IArticleRepository articleRepository)
+        public ArticlesController(IArticleRepository articleRepository, IUserRepository userRepository)
         {
             this.articleRepository = articleRepository;
+            this.userRepository = userRepository;
         }
 
         // GET: api/Articles
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetArticles()
         {
-            return Ok(articleRepository.GetAllArticles());
+            return Ok(await articleRepository.GetAllArticles());
         }
 
         // GET: api/Articles/5
@@ -54,8 +58,10 @@ namespace API.Controllers
         // POST: api/Articles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ArticleResponse>> PostArticle(ArticleRequest articleRes)
         {
+            articleRes.User = await userRepository.GetUserByUsernameAsync(User.GetUsername());
             var req = await articleRepository.AddOrUpdateArticle(articleRes);
 
             return CreatedAtAction("GetArticle", new { id = req.Id }, req);

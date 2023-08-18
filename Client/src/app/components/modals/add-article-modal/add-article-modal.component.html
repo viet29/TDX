@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm bài mới</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="addArticleForm" #addArticleForm="ngForm" (ngSubmit)="addArticle()">
+        <div class="row">
+            <label>Tiêu đề</label>
+            <div class="col-12">
+                <input type="text" id="title" name="title" class="form-control" [(ngModel)]="article.title">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <label>Nội dung</label>
+            <div class="col-12">
+                <app-my-ck-editor name="body" [(ngModel)]="article.body"></app-my-ck-editor>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" (click)="bsModalRef.hide()" class="btn btn-outline-secondary">Đóng</button>
+    <button type="submit" form="addArticleForm" class="btn btn-outline-secondary">Thêm</button>
+</div>

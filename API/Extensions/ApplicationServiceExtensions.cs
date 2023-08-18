@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Repositories;
 using API.Services;
@@ -18,12 +19,17 @@ namespace API.Extensions
 
             services.AddCors();
 
-            // Add repositories service
+            // Data Mapper services
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Cloudinary service
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+
+            // Add repositories services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IPhotoService, PhotoService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();

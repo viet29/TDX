@@ -28,7 +28,7 @@
 
             <!-- If logged in-->
             <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user; else notLoggedIn" dropdown>
-                <img class="avatar" src="{{user.avatarUrl || './assets/user.png'}}"
+                <img class="avatar" src="{{user.avatarUrl || '../../../../../assets/images/user.png'}}"
                     alt="Ảnh đại diện {{user.userName}}"> &nbsp;
                 <a class="text-light dropdown-toggle text-decoration-none" id="dropdownMenuButton" dropdownToggle>
                     {{user.fullName | titlecase}}</a>

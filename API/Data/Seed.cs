@@ -42,7 +42,7 @@ namespace API.Data
                 Email = "quocviet.pham291@gmail.com",
                 Gender = "Nam",
                 PhoneNumber = "0975196379",
-                City = "Hà Nội"
+                Province = "Hà Nội"
             };
 
             await userManager.CreateAsync(admin, "Viet246810");

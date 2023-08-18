@@ -4,36 +4,44 @@
             <h1>Trang cá nhân:</h1>
         </div>
         <div class="col-8">
-            <div class="alert alert-info pb-0">
+            <div class="alert alert-info pb-0" *ngIf="editForm.dirty">
                 <p><strong>Lưu ý: </strong>Bạn đã thay đổi thông tin. Mọi thông tin chưa được lưu sẽ biến mất</p>
             </div>
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="{{user.avatarUrl || '../../../../../../assets/images/user.png'}}" alt="{{user.fullName}}"
-                    class="card-img-top img-thumbnail">
+                <div class="img-wrapper">
+                    <img src="{{user.avatarUrl || '../../../../../../assets/images/user.png'}}" alt="{{user.fullName}}"
+                        class="img-thumbnail">
+                    <p class="text-center text-muted"><a class="text-reset pe-auto pointer"
+                            (click)="openChangeAvatarFileChooser()">Đổi ảnh đại
+                            diện</a></p>
+                    <input type="file" id="changeAvaUrl" (change)="changeAvatar($event)" style="display:none"
+                        accept="image/png, image/jpeg">
+                </div>
+
                 <div class="card-body">
                     <div>
-                        <strong>Thành phố:</strong>
-                        <p>{{user.city}}</p>
+                        <strong>Tài khoản:</strong>
+                        <p>{{user.userName}}</p>
                     </div>
                     <div>
-                        <strong>Ngày sinh:</strong>
-                        <p>{{user.dob}}</p>
+                        <strong>Email:</strong>
+                        <p>{{user.email}}</p>
                     </div>
-                    <!-- <div>
-                    <strong>Last active:</strong>
-                    <p>{{user.lastActive}}</p>
-                </div> -->
+                    <div>
+                        <strong>Lần hoạt động cuối:</strong>
+                        <p>{{user.lastActive | date: 'dd-MM-yyyy'}}</p>
+                    </div>
                     <div>
                         <strong>Ngày tham gia:</strong>
-                        <p>{{user.createdAt | date:'dd MMM yyyy'}}</p>
+                        <p>{{user.createdAt | date:'dd-MM-yyyy'}}</p>
                     </div>
                 </div>
-                <!-- <div class="card-footer">
-                <button [disabled]="!editForm.dirty" type="submit" form="editForm" class="btn btn-success col-12">Save
-                    Changes</button>
-            </div> -->
+                <div class="card-footer">
+                    <button [disabled]="!editForm.dirty" type="submit" form="editForm"
+                        class="btn btn-success col-12">Thay đổi</button>
+                </div>
             </div>
         </div>
 
@@ -42,17 +50,44 @@
                 <tab heading="Thông tin">
                     <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
                         <h4 class="mt-2">Mô tả</h4>
-                        <textarea class="form-control" name="introduction" rows="6"></textarea>
-                        <h4 class="mt-2">Looking for</h4>
-                        <textarea class="form-control" name="lookingFor" rows="6"></textarea>
-                        <h4>Interests</h4>
-                        <textarea class="form-control" name="interests" rows="6"></textarea>
-                        <h4 class="mt-2">Location Details: </h4>
+                        <textarea [(ngModel)]="user.description" class="form-control" name="description"
+                            rows="6"></textarea>
+
+                        <hr />
+
+                        <h4>Bản thân</h4>
                         <div class="d-flex flex-row align-items-center">
-                            <label for="city">City: </label>
-                            <input [(ngModel)]="user.city" type="text" name="city" class="form-control mx-2">
-                            <label for="city">Country: </label>
-                            <input type="text" name="country" class="form-control mx-2">
+                            <label for="fullName">Họ tên: </label>
+                            <input type="text" name="fullName" id="fullName" class="form-control ms-2 me-6"
+                                [(ngModel)]="user.fullName" style="width: 400px;">
+
+                            <label for="dob" class="flex-label" class="ms-5">Ngày sinh:</label>
+                            <input [(ngModel)]="user.dob" type="date" id="dob" name="dob" class="form-control ms-2"
+                                style="width: 265px;">
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mt-3">
+                            <label for="gender" class="flex-label">Giới tính:</label>
+                            <select class="form-select" name="gender" [(ngModel)]="user.gender">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                            <label for="email" class="ms-5">Email: </label>
+                            <input [(ngModel)]="user.email" type="email" id="email" name="email"
+                                class="form-control ms-2">
+
+                        </div>
+
+                        <hr />
+
+                        <h4 class="mt-2">Vị trí: </h4>
+                        <div class="d-flex flex-row align-items-center">
+                            <label for="province" class="flex-label me-2">Tỉnh thành: </label>
+                            <input [(ngModel)]="user.province" type="text" name="province" id="province"
+                                class="form-control" style="width: 200px;">
+                            <label for="school" class="ms-5">Trường: </label>
+                            <input type="text" id="school" name="school" class="form-control ms-2"
+                                [(ngModel)]="user.school">
                         </div>
                     </form>
 
@@ -60,9 +95,6 @@
 
                 <tab heading="Đổi mật khẩu">
 
-                </tab>
-                <tab heading="Edit Photos">
-                    <!-- <app-photo-editor [user]="user"></app-photo-editor> -->
                 </tab>
             </tabset>
         </div>

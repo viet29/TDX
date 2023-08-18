@@ -10,7 +10,9 @@ namespace API.Entities
         public string FullName { get; set; } 
         public DateOnly DOB { get; set; }
         public string Gender { get; set; }
-        public string City { get; set; }
+        public string Province { get; set; }
+        public string School { get; set; }
+        public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set;} = DateTime.Now;

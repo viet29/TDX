@@ -1,6 +1,6 @@
 ﻿namespace API.DTO
 {
-    public class UserDTO
+    public class UserAuthResponse
     {
         public string UserName { get; set; }
 

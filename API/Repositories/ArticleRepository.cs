@@ -2,6 +2,7 @@
 using API.DTO;
 using API.Entities;
 using API.Interfaces;
+using API.Extensions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace API.Repositories
             }
 
             tmp = mapper.Map<ArticleRequest, Article>(articleReq, tmp);
+
             context.Articles.Update(tmp);
             await context.SaveChangesAsync();
 

@@ -10,6 +10,6 @@ namespace API.DTO
 
         public string Body { get; set; }
 
-        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

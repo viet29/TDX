@@ -18,6 +18,6 @@ namespace API.DTO
 
         public string Gender { get; set; }
 
-        public string City { get; set; }
+        public string Province { get; set; }
     }
 }

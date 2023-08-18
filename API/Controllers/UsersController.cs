@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using API.Interfaces;
 using AutoMapper;
 using API.DTO;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IUserRepository userRepository;
@@ -28,7 +22,8 @@ namespace API.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
+        [Authorize(Policy = "requireAdminRole")]
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetUsers()
         {
             var users = await userRepository.GetMembersAsync();
 
@@ -36,7 +31,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{username}")]
-        public async Task<ActionResult<MemberDTO>> GetUserByUsername(string username)
+        public async Task<ActionResult<UserResponse>> GetUserByUsername(string username)
         {
             var user = await userRepository.GetMemberByUsernameAsync(username);
 

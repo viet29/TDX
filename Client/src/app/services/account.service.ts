@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment';
+import { Photo } from '../models/photo';
+import { UserAuth } from '../models/userAuth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ import { environment } from 'src/environments/environment';
 export class AccountService {
 
   baseUrl: string = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<User | null>(null);
+  private currentUserSource = new BehaviorSubject<UserAuth | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) {
@@ -18,39 +20,51 @@ export class AccountService {
   }
 
   login(model: any) {
-    return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
-      map((response: User) => {
-        const user = response;
-        if (user) {
-          this.setCurrentUser(user);
+    return this.http.post<UserAuth>(this.baseUrl + 'account/login', model).pipe(
+      map((response: UserAuth) => {
+        const userAuth = response;
+        if (userAuth) {
+          this.setCurrentUser(userAuth);
         }
       })
     )
   }
 
   register(model: any) {
-    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
-      map(user => {
-        if (user) {
-          this.setCurrentUser(user);
+    return this.http.post<UserAuth>(this.baseUrl + 'account/register', model).pipe(
+      map(userAuth => {
+        if (userAuth) {
+          this.setCurrentUser(userAuth);
         }
       })
     )
   }
 
-  setCurrentUser(user: User) {
-    user.roles = []
-    const roles = this.getDecodedToken(user.token).role;
+  setCurrentUser(userAuth: UserAuth) {
+    userAuth.roles = []
+    const roles = this.getDecodedToken(userAuth.token).role;
 
-    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    Array.isArray(roles) ? userAuth.roles = roles : userAuth.roles.push(roles);
 
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSource.next(user);
+    localStorage.setItem('user', JSON.stringify(userAuth));
+    this.currentUserSource.next(userAuth);
   }
 
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getUserInfo(username: string) {
+    return this.http.get<User>(this.baseUrl + 'users/' + username);
+  }
+
+  updateUser(user: User) {
+    return this.http.put(this.baseUrl + 'account/edit', user);
+  }
+
+  changeAvatarImg(photo: FormData) {
+    return this.http.post<Photo>(this.baseUrl + 'account/updateAvatar', photo);
   }
 
   getDecodedToken(token: string) {

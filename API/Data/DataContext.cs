@@ -39,6 +39,7 @@ namespace API.Data
         }
 
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
     }
 

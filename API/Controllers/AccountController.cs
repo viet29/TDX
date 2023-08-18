@@ -1,10 +1,15 @@
-﻿using API.DTO;
+﻿using API.Data;
+using API.DTO;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace API.Controllers;
 
@@ -14,17 +19,24 @@ public class AccountController : BaseApiController
     private readonly IMapper mapper;
     private readonly UserManager<User> userManager;
     private readonly SignInManager<User> signInManager;
-    
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IMapper mapper)
+    private readonly IUserRepository userRepository;
+    private readonly IPhotoService photoService;
+    private readonly DataContext context;
+
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+        ITokenService tokenService, IMapper mapper, IUserRepository userRepository, IPhotoService photoService, DataContext context)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
         this.mapper = mapper;
-        this.tokenService = tokenService; 
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        this.photoService = photoService;
+        this.context = context;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
+    public async Task<ActionResult<UserAuthResponse>> Register(RegisterDTO registerDto)
     {
         if (await UserExists(registerDto.Username)) 
             return BadRequest("Tên tài khoản đã được sử dụng!");
@@ -41,7 +53,7 @@ public class AccountController : BaseApiController
 
         if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
-        return new UserDTO
+        return new UserAuthResponse
         {
             UserName = user.UserName,
             FullName = user.FullName,
@@ -50,7 +62,7 @@ public class AccountController : BaseApiController
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
+    public async Task<ActionResult<UserAuthResponse>> Login(LoginDTO loginDto)
     {
         var user = await userManager.Users
             .Include(p => p.AvatarImg)
@@ -63,14 +75,68 @@ public class AccountController : BaseApiController
 
         if (!result.Succeeded) return Unauthorized("Tài khoản hoặc mật khẩu không chính xác!");
 
-        return new UserDTO
+        return new UserAuthResponse
         {
             UserName = user.UserName,
             Token = await tokenService.CreateToken(user),
             AvatarUrl = user.AvatarImg?.Url,
             FullName = user.FullName
+
         };
     }
+
+    [HttpPut("edit")]
+    [Authorize]
+    public async Task<ActionResult> UpdateUser(UserUpdateDTO userUpdateDTO)
+    {
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        if (user == null) return NotFound();
+
+        mapper.Map(userUpdateDTO, user);
+
+        if (await userRepository.SaveAllAsync())
+            return NoContent();
+
+        return BadRequest("Sửa đổi thất bại!");
+    }
+
+    [HttpPost("updateAvatar")]
+    [Authorize]
+    public async Task<ActionResult> ChangeAvatarImage(IFormFile file)
+    {
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        if (user == null) return NotFound();
+
+        var res = await photoService.AddPhotoAsync(file);
+
+        if (res.Error != null) return BadRequest(res.Error.Message);
+
+        var oldAvatar = user.AvatarImg;
+
+        if(oldAvatar != null)
+        {
+            if(oldAvatar.PublicId != null)
+                await photoService.DeletePhotoAsync(oldAvatar.PublicId);
+        }
+
+        var newAvatar = new Photo
+        {
+            Url = res.SecureUrl.AbsoluteUri,
+            PublicId = res.PublicId
+        };
+
+        user.AvatarImg = newAvatar;
+
+        if (await userRepository.SaveAllAsync())
+            return Ok(newAvatar);
+            
+        return BadRequest("Thay đổi không thành công, vui lòng thử lại sau!");
+    }
+
+
+
 
     private async Task<bool> UserExists(string username)
     {

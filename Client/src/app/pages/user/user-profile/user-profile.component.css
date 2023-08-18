@@ -1,5 +1,6 @@
 .img-thumbnail {
     margin: 25px;
+    margin-bottom: 5px;
     width: 85%;
     height: 85%;
 }
@@ -12,4 +13,21 @@
     padding: 10px 15px;
     background-color: #fff;
     border-top: none;
+}
+
+.flex-item > *   {
+    display: inline;    
+}
+
+.flex-label {
+    flex: 0 0 80px;
+}
+
+hr {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+a {
+    cursor: pointer;
 }

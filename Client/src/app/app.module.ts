@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { NavComponent } from './components/nav/nav.component';
 import { AppComponent } from './app.component';
@@ -26,6 +27,10 @@ import { UserManagementComponent } from './components/admin/user-management/user
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { EditUserModalComponent } from './components/admin/modals/edit-user-modal/edit-user-modal.component';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MyCkEditorComponent } from './components/my-ck-editor/my-ck-editor.component';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { AddArticleModalComponent } from './components/modals/add-article-modal/add-article-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +47,8 @@ import { UserProfileComponent } from './pages/user/user-profile/user-profile.com
     UserManagementComponent,
     EditUserModalComponent,
     UserProfileComponent,
+    MyCkEditorComponent,
+    AddArticleModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,10 @@ import { UserProfileComponent } from './pages/user/user-profile/user-profile.com
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
+    CKEditorModule,
+    NgxSpinnerModule.forRoot({
+      type: 'line-scale-party'
+    }),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
@@ -60,6 +71,8 @@ import { UserProfileComponent } from './pages/user/user-profile/user-profile.com
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+
 
   ],
   bootstrap: [AppComponent]

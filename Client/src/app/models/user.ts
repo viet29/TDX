@@ -4,10 +4,13 @@ export interface User {
     email: string;
     token: string;
     avatarUrl: string;
-    dob: string;
+    dob: Date;
     gender: string;
-    city: string;
+    province: string;
+    school: string;
+    description: string;
     fullName: string,
     roles: string[];
-    createdAt: string;
+    createdAt: Date;
+    lastActive: Date;
 }

@@ -4,6 +4,7 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -19,14 +20,14 @@ namespace API.Repositories
             this.context = context;
         }
 
-        public async Task<MemberDTO> GetMemberByUsernameAsync(string username)
+        public async Task<UserResponse> GetMemberByUsernameAsync(string userName)
         {
-            return await context.Users.Where(x => x.UserName == username).ProjectTo<MemberDTO>(mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            return await context.Users.Where(x => x.UserName == userName).ProjectTo<UserResponse>(mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+        public async Task<IEnumerable<UserResponse>> GetMembersAsync()
         {
-            return await context.Users.ProjectTo<MemberDTO>(mapper.ConfigurationProvider).ToListAsync();
+            return await context.Users.ProjectTo<UserResponse>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<User> GetUserByIdAsync(int id)
@@ -51,6 +52,11 @@ namespace API.Repositories
         public void Update(User user)
         {
             context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<bool> SaveAllAsync()
+        {
+            return await context.SaveChangesAsync() > 0;
         }
     }
 }
