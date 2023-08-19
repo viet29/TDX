@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { Article } from 'src/app/models/article';
 import { ArticleService } from 'src/app/services/article.service';
 
@@ -14,14 +15,10 @@ export class AddArticleModalComponent implements OnInit {
   article: any = {}
   addArticleForm;
 
-  constructor(protected bsModalRef: BsModalRef, private articleService: ArticleService,
-    private formBuilder: FormBuilder) { }
+  constructor(protected bsModalRef: BsModalRef, private articleService: ArticleService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.addArticleForm = this.formBuilder.group({
-      title: ['', [Validators.required]],
-      body: ['', [Validators.required]],
-    })
+
   }
 
   addArticle() {
@@ -29,6 +26,8 @@ export class AddArticleModalComponent implements OnInit {
     this.articleService.addArticle(this.article).subscribe({
       next: _ => {
         console.log("Success");
+        this.toastr.success("Thêm thành công");
+        window.location.reload();
       }
     })
   }

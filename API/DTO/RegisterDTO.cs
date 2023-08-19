@@ -4,9 +4,11 @@ namespace API.DTO
 {
     public class RegisterDTO
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public string FullName { get; set; }
+
+        public DateOnly DOB { get; set; }
 
         public string Password { get; set; }
 
@@ -17,7 +19,5 @@ namespace API.DTO
         public string PhoneNumber { get; set; }
 
         public string Gender { get; set; }
-
-        public string Province { get; set; }
     }
 }

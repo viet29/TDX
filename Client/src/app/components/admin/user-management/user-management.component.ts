@@ -16,7 +16,8 @@ export class UserManagementComponent implements OnInit {
   availableRoles = [
     'Admin',
     'Manager',
-    'Teacher'
+    'Teacher',
+    'Student'
   ]
 
   constructor(private adminService: AdminService, private modalService: BsModalService) {

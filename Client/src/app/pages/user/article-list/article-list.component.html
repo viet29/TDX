@@ -1,11 +1,13 @@
 <div class="container">
     <div class="row my-3">
         <h2 class="col-9"> Tin tức</h2>
-        <div class="col-3" *ngIf="(accountService.currentUser$  | async)"><a class="link-primary"
-                (click)="openAddArticleModal()">Viết bài mới</a></div>
+        <div class="col-3" style="text-align: right; line-height: 50px;" *ngIf="(accountService.currentUser$  | async)">
+            <a class="link-primary" (click)="openAddArticleModal()">Viết bài mới</a>
+        </div>
     </div>
 
-    <div class="col-2">
-        <p *ngFor="let a of articles">{{a.title}}</p>
+    <div class="row" *ngFor="let item of articles">
+        <app-article-card [article]="item"></app-article-card>
     </div>
+
 </div>

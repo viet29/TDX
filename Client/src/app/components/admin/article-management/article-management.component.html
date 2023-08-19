@@ -1,0 +1,22 @@
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 50%;">Tiêu đề</th>
+                <th style="width: 30%;">Tác giả</th>
+                <th style="width: 10%;">Trạng thái</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of articles">
+                <td>{{a.title}}</td>
+                <td>{{a.authorName}}</td>
+                <td><button class="btn btn-success" (click)="changeState(a)">{{ a.isPublished ? 'Đã duyệt' :
+                        'Chưa duyệt'}}</button></td>
+                <td><button class="btn btn-primary" (click)="openViewModal(a)">Xem</button></td>
+                <!-- <td><button class="btn btn-danger" (click)="deleteArticle(a)">Xoá</button></td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>

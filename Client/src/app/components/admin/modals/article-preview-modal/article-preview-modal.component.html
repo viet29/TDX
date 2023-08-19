@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Bài viết</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <h1>{{article.title}}</h1>
+    <p>Tác giả: Tên tác giả: {{article.authorName}}</p>
+    <p>Ngày phát hành: {{article.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
+    <hr>
+    <p [innerHTML]="article.body"></p>
+</div>

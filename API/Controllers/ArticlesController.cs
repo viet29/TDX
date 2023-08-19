@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Entities;
-using API.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using API.Interfaces;
 using API.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -30,12 +21,19 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetArticles()
         {
+            return Ok(await articleRepository.GetAllPublishedArticles());
+        }
+
+        [HttpGet("admin")]
+        [Authorize(Policy = "requireManagerRole")]
+        public async Task<ActionResult<IEnumerable<ArticleResponse>>> GetArticlesAdmin()
+        {
             return Ok(await articleRepository.GetAllArticles());
         }
 
         // GET: api/Articles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ArticleResponse>> GetArticle(int id)
+        public async Task<ActionResult<ArticleDetailResponse>> GetArticle(int id)
         {
             var articleRes = await articleRepository.GetArticle(id);
 
@@ -72,6 +70,14 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteArticle(int id)
         {
             var article = await articleRepository.DeleteArticle(id);
+            return NoContent();
+        }
+
+        [HttpGet("publish/{id}")]
+        [Authorize(Policy = "requireManagerRole")]
+        public async Task<IActionResult> ChangeState(int id)
+        {
+            await articleRepository.ChangeState(id);
             return NoContent();
         }
     }

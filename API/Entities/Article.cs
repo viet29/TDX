@@ -13,9 +13,9 @@ namespace API.Entities
 
         public bool IsPublished { get; set; }   
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public DateTime LastUpdatedAt { get; set;}
+        public DateTime LastUpdatedAt { get; set;} = DateTime.Now;
 
         public User User { get; set; }
 

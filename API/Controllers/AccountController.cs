@@ -38,20 +38,26 @@ public class AccountController : BaseApiController
     [HttpPost("register")]
     public async Task<ActionResult<UserAuthResponse>> Register(RegisterDTO registerDto)
     {
-        if (await UserExists(registerDto.Username)) 
+        if(registerDto.Password != registerDto.RepeatPassword)
+        {
+            return BadRequest("Mật khẩu nhập lại không đúng!");
+        }
+
+        if (await UserExists(registerDto.UserName)) 
             return BadRequest("Tên tài khoản đã được sử dụng!");
 
         var user = mapper.Map<User>(registerDto);
 
-        user.UserName = registerDto.Username.ToLower();
+        user.UserName = registerDto.UserName.ToLower();
 
         var result = await userManager.CreateAsync(user, registerDto.Password);
 
-        if (!result.Succeeded) return BadRequest(result.Errors);
+        if (!result.Succeeded) return BadRequest("Sai định dạng, vui lòng nhập lại");
 
         var roleResult = await userManager.AddToRoleAsync(user, "Student");
 
         if (!roleResult.Succeeded) return BadRequest(result.Errors);
+
 
         return new UserAuthResponse
         {
@@ -75,6 +81,9 @@ public class AccountController : BaseApiController
 
         if (!result.Succeeded) return Unauthorized("Tài khoản hoặc mật khẩu không chính xác!");
 
+        //If succeeded
+        user.LastActive = DateTime.Now;
+
         return new UserAuthResponse
         {
             UserName = user.UserName,
@@ -91,7 +100,7 @@ public class AccountController : BaseApiController
     {
         var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-        if (user == null) return NotFound();
+        if (user == null) return NotFound("Không tìm thấy người dùng");
 
         mapper.Map(userUpdateDTO, user);
 

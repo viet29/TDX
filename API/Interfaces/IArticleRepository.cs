@@ -11,6 +11,10 @@ namespace API.Interfaces
 
         Task<IEnumerable<ArticleResponse>> GetAllArticles();
 
-        Task<ArticleResponse> GetArticle(int id);
+        Task<IEnumerable<ArticleResponse>> GetAllPublishedArticles();
+
+        Task<ArticleDetailResponse> GetArticle(int id);
+
+        Task<bool> ChangeState(int id);
     }
 }

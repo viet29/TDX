@@ -27,7 +27,6 @@ export class UserProfileComponent implements OnInit {
       next: userAuth => {
         if (userAuth) {
           this.userAuth = userAuth;
-          console.log(userAuth);
         }
       }
     });
@@ -49,6 +48,7 @@ export class UserProfileComponent implements OnInit {
           this.accountService.setCurrentUser(this.userAuth);
           this.toastr.success("Đổi ảnh đại diện thành công!");
         }
+        window.location.reload();
       },
       error: _ => {
         this.toastr.error("Đã xảy ra lỗi, xin thử lại sau!");
@@ -64,7 +64,10 @@ export class UserProfileComponent implements OnInit {
     if (!this.userAuth)
       return;
     this.accountService.getUserInfo(this.userAuth.userName).subscribe({
-      next: user => this.user = user
+      next: user => {
+        this.user = user;
+        console.log(user);
+      }
     });
   }
 
@@ -72,7 +75,10 @@ export class UserProfileComponent implements OnInit {
     this.accountService.updateUser(this.editForm?.value).subscribe({
       next: () => {
         this.toastr.success('Thay đổi thành công!');
+        this.userAuth!.fullName = this.editForm?.value.fullName;
+        this.accountService.setCurrentUser(this.userAuth!);
         this.editForm?.reset(this.user);
+        window.location.reload();
       }
     })
   }

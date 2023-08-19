@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { NavComponent } from './components/nav/nav.component';
 import { AppComponent } from './app.component';
@@ -31,6 +32,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MyCkEditorComponent } from './components/my-ck-editor/my-ck-editor.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { AddArticleModalComponent } from './components/modals/add-article-modal/add-article-modal.component';
+import { ArticleCardComponent } from './components/article-card/article-card.component';
+import { ArticleManagementComponent } from './components/admin/article-management/article-management.component';
+import { ArticlePreviewModalComponent } from './components/admin/modals/article-preview-modal/article-preview-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,12 +53,16 @@ import { AddArticleModalComponent } from './components/modals/add-article-modal/
     UserProfileComponent,
     MyCkEditorComponent,
     AddArticleModalComponent,
+    ArticleCardComponent,
+    ArticleManagementComponent,
+    ArticlePreviewModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     NgbModule,
     CKEditorModule,
@@ -63,6 +71,7 @@ import { AddArticleModalComponent } from './components/modals/add-article-modal/
     }),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),

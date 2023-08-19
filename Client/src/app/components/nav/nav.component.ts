@@ -48,7 +48,6 @@ export class NavComponent implements OnInit {
       },
       error: err => {
         console.log(err);
-        this.toastr.error(err.error);
       }
     })
   }
@@ -71,7 +70,7 @@ export class NavComponent implements OnInit {
     if (this.modalRegister) {
       this.closeModal(this.modalRegister);
     }
-    this.modalLogin = this.modalService.show(template, { class: 'modal-lg' });
+    this.modalLogin = this.modalService.show(template);
   }
 
   @HostListener('window:scroll', ['$event']) onScroll() {

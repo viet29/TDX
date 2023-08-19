@@ -16,14 +16,11 @@
                     <a class="nav-link" routerLink="/articles" routerLinkActive="active">Tin tức</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/contests" routerLinkActive="active">Cuộc thi</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" routerLink="/about-us" routerLinkActive="active">Về chúng tôi</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" routerLink="/errors" routerLinkActive="active">Error</a>
-                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/faq" routerLinkActive="active">FAQ</a>
+                </li>
             </ul>
 
             <!-- If logged in-->
@@ -53,40 +50,80 @@
 
 <!--Register Form-->
 <ng-template #registerFrm>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Đăng ký</h4>
-        <button type="button" class="btn-close close pull-right" aria-label="Close"
-            (click)="closeModal(this.modalRegister!)">
-            <span aria-hidden="true" class="visually-hidden">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form #registerForm="ngForm" (ngSubmit)="register()" method="post">
-            <div class="mb-3">
-                <label for="username" class="col-form-label">Tài khoản:</label>
-                <input type="text" class="form-control" name="username" id="username"
-                    [(ngModel)]="modelRegister.username" placeholder="Tài khoản">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="col-form-label">Mật khẩu:</label>
-                <input type="password" class="form-control" name="password" id="password"
-                    [(ngModel)]="modelRegister.password" placeholder=" Mật khẩu">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="col-form-label">Nhập lại mật khẩu:</label>
-                <input type="password" class="form-control" name="password" id="password"
-                    [(ngModel)]="modelRegister.password" placeholder=" Mật khẩu">
-            </div>
-            <div>
+    <div class="container">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Đăng ký</h4>
+            <button type="button" class="btn-close close pull-right" aria-label="Close"
+                (click)="closeModal(this.modalRegister!)">
+                <span aria-hidden="true" class="visually-hidden">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #registerForm="ngForm" (ngSubmit)="register()" method="post">
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <label for="userName" class="col-form-label">Tài khoản:</label>
+                        <input type="text" class="form-control" name="userName" id="userName"
+                            [(ngModel)]="modelRegister.userName" placeholder="Tài khoản" required>
+                    </div>
+                    <div class="col-4">
+                        <label for="username" class="col-form-label">Giới tính:</label>
+                        <select class="form-select" name="gender" [(ngModel)]="modelRegister.gender" required>
+                            <option value="" disabled selected>--Chọn--</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+                </div>
 
-            </div>
-            <button type="submit" class="btn btn-primary">Đăng ký</button>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a class="link-secondary" (click)="openLoginModal(loginFrm)">Đã có tài khoản?</a>
-    </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="fullName" class="col-form-label">Họ tên</label>
+                        <input type="text" class="form-control" name="fullName" [(ngModel)]="modelRegister.fullName"
+                            placeholder=" Họ và tên" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="dob" class="col-form-label">Ngày sinh:</label>
+                        <input type="date" class="form-control" name="dob" id="dob" [(ngModel)]="modelRegister.dob"
+                            required>
+                    </div>
+                </div>
 
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="password" class="col-form-label">Mật khẩu:</label>
+                        <input type="password" class="form-control" name="password" id="password"
+                            [(ngModel)]="modelRegister.password" placeholder=" Mật khẩu"
+                            title="Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số." required>
+                        <small id="passwordHelp" class="form-text text-muted">Mật khẩu phải chứa ít nhất 8 ký tự, bao
+                            gồm chữ hoa, chữ thường và số.</small>
+                    </div>
+                    <div class="col-6">
+                        <label for="repeatPassword" class="col-form-label">Nhập lại mật khẩu:</label>
+                        <input type="password" class="form-control" name="repeatPassword" id="repeatPassword"
+                            [(ngModel)]="modelRegister.repeatPassword" placeholder=" Mật khẩu" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <label for="email" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" name="email" [(ngModel)]="modelRegister.email"
+                            placeholder="Email" required>
+                    </div>
+                    <div class="col-5">
+                        <label for="phonenumber" class="col-form-label">Số điện thoại:</label>
+                        <input type="text" class="form-control" name="phoneNumber" id="phonenumber"
+                            [(ngModel)]="modelRegister.phoneNumber" placeholder="Số điện thoại" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="link-secondary" (click)="openLoginModal(loginFrm)">Đã có tài khoản?</a>
+        </div>
+    </div>
 </ng-template>
 
 <!--Login Form-->
@@ -103,12 +140,12 @@
             <div class="mb-3">
                 <label for="username" class="col-form-label">Tài khoản:</label>
                 <input type="text" class="form-control" id="username" placeholder="Tài khoản" name="username"
-                    [(ngModel)]="modelLogin.username">
+                    [(ngModel)]="modelLogin.username" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="col-form-label">Mật khẩu:</label>
                 <input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password"
-                    [(ngModel)]="modelLogin.password">
+                    [(ngModel)]="modelLogin.password" required>
             </div>
             <button type="submit" class="btn btn-primary">Đăng nhập</button>
         </form>
@@ -117,6 +154,5 @@
         <a class="link-secondary" href="">Quên mật khẩu?</a>
         <span>&nbsp;|&nbsp;</span>
         <a class="link-secondary" (click)="openRegisterModal(registerFrm)">Chưa có tài khoản?</a>
-
     </div>
 </ng-template>

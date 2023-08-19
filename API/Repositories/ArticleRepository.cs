@@ -6,6 +6,8 @@ using API.Extensions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Repositories
 {
@@ -13,11 +15,13 @@ namespace API.Repositories
     {
         private readonly DataContext context;
         private readonly IMapper mapper;
+        private readonly UserManager<User> userManager;
 
-        public ArticleRepository(DataContext context, IMapper mapper)
+        public ArticleRepository(DataContext context, IMapper mapper, UserManager<User> userManager)
         {
             this.context = context;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         public async Task<ArticleResponse> AddOrUpdateArticle(ArticleRequest articleReq)
@@ -28,6 +32,15 @@ namespace API.Repositories
             {
                 var article = mapper.Map<Article>(articleReq);
 
+                var roles = await userManager.GetRolesAsync(article.User);
+                if(roles.Contains("Admin") || roles.Contains("Manager"))
+                {
+                    article.IsPublished = true;
+                } else
+                {
+                    article.IsPublished = false;
+                }
+                
                 await context.Articles.AddAsync(article);
                 await context.SaveChangesAsync();
                 return mapper.Map<ArticleResponse>(article);
@@ -43,6 +56,8 @@ namespace API.Repositories
 
         }
 
+
+
         public async Task<bool> DeleteArticle(int id)
         {
             var tmp = await context.Articles.FirstOrDefaultAsync(x => x.Id == id);
@@ -55,16 +70,33 @@ namespace API.Repositories
             return await Task.FromResult(true);
         }
 
+
         public async Task<IEnumerable<ArticleResponse>> GetAllArticles()
         {
             return await context.Articles.ProjectTo<ArticleResponse>(mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<ArticleResponse> GetArticle(int id)
+        public async Task<IEnumerable<ArticleResponse>> GetAllPublishedArticles()
+        {
+            return await context.Articles.Where(x => x.IsPublished == true).ProjectTo<ArticleResponse>(mapper.ConfigurationProvider).ToListAsync();
+        }
+
+        public async Task<ArticleDetailResponse> GetArticle(int id)
         {
             var article = await context.Articles.FirstOrDefaultAsync(x => x.Id == id);
 
-            return mapper.Map<ArticleResponse>(article);
+            return mapper.Map<ArticleDetailResponse>(article);
+        }
+
+        public async Task<bool> ChangeState(int id)
+        {
+            var article = await context.Articles.FirstOrDefaultAsync(x => x.Id == id);
+
+            article.IsPublished = !article.IsPublished;
+
+            await context.SaveChangesAsync();
+
+            return await Task.FromResult(true);
         }
     }
 

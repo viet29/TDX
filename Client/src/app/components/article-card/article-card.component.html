@@ -1,0 +1,12 @@
+<div class="card my-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <div class="row">
+            <p class="col-8 card-text">Tác giả: {{ article.authorName }}</p>
+            <div class="col-4" style="text-align: right;">Ngày: {{ article.createdAt | date: 'dd-MM-yyyy HH:mm:ss' }}
+            </div>
+        </div>
+
+        <a [routerLink]="['/articles', article.id]" class="btn btn-primary">Xem</a>
+    </div>
+</div>

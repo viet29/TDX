@@ -8,16 +8,18 @@ namespace API.Helpers
     {
         public AutoMapperProfiles()
         {
+            // User Mapping
             CreateMap<User, UserResponse>().ForMember(des => des.AvatarUrl, opt => opt.MapFrom(src => src.AvatarImg.Url));
-
             CreateMap<User, UserAuthResponse>().ForMember(des => des.AvatarUrl, opt => opt.MapFrom(src => src.AvatarImg.Url));
 
             CreateMap<Photo, PhotoDTO>();
 
             CreateMap<RegisterDTO, User>();
 
+            // Article Mapping
             CreateMap<ArticleRequest, Article>();
             CreateMap<Article, ArticleResponse>().ForMember(des => des.AuthorName, opt => opt.MapFrom(src => src.User.FullName));
+            CreateMap<Article, ArticleDetailResponse>().ForMember(des => des.AuthorName, opt => opt.MapFrom(src => src.User.FullName));
 
             CreateMap<UserUpdateDTO, User>();
             //CreateMap<MemberUpdateDto, AppUser>();
