@@ -76,4 +76,34 @@
       margin-top: 7rem;
     }
   }
+
+  .c1 {
+    max-width: 100%; /* Ảnh sẽ không vượt quá kích thước của phần tử cha */
+    height: 400px;
+  
+    background-image: url('https://file1.dangcongsan.vn/data/0/images/2022/04/22/vietha/ngaytd223.jpg?dpi=150&quality=100&w=780');
+    background-repeat: repeat-x repeat-y;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .c2 {
+    max-width: 100%; /* Ảnh sẽ không vượt quá kích thước của phần tử cha */
+    height: 400px;
+  
+    background-image: url('https://file1.dangcongsan.vn/data/0/images/2022/04/22/vietha/ngaytd223.jpg?dpi=150&quality=100&w=780');
+    background-repeat: repeat-x repeat-y;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .c3 {
+    max-width: 100%; /* Ảnh sẽ không vượt quá kích thước của phần tử cha */
+    height: 400px;
+  
+    background-image: url('https://file1.dangcongsan.vn/data/0/images/2022/04/22/vietha/ngaytd223.jpg?dpi=150&quality=100&w=780');
+    background-repeat: repeat-x repeat-y;
+    background-size: cover;
+    background-position: center;
+  }
   
