@@ -40,6 +40,7 @@ namespace API.Data
 
         public DbSet<Article> Articles { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Faq> Faqs { get; set; }
 
     }
 

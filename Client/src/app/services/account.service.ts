@@ -67,6 +67,10 @@ export class AccountService {
     return this.http.post<Photo>(this.baseUrl + 'account/updateAvatar', photo);
   }
 
+  changePassword(model: any) {
+    return this.http.post(this.baseUrl + 'account/changePassword', model);
+  }
+
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }

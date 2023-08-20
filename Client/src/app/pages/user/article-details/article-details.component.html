@@ -1,6 +1,6 @@
 <div class="container">
     <h1>{{article.title}}</h1>
-    <p>Tác giả: Tên tác giả: {{article.authorName}}</p>
+    <p>Tác giả: {{article.authorName}}</p>
     <p>Ngày phát hành: {{article.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
     <hr>
     <p [innerHTML]="article.body"></p>

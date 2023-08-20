@@ -84,6 +84,9 @@ public class AccountController : BaseApiController
         //If succeeded
         user.LastActive = DateTime.Now;
 
+        userRepository.Update(user);
+        await userRepository.SaveAllAsync();
+
         return new UserAuthResponse
         {
             UserName = user.UserName,
@@ -142,6 +145,24 @@ public class AccountController : BaseApiController
             return Ok(newAvatar);
             
         return BadRequest("Thay đổi không thành công, vui lòng thử lại sau!");
+    }
+
+    [HttpPost("changePassword")]
+    [Authorize]
+    public async Task<ActionResult> ChangePassword(ChangePasswordRequest passwordRequest)
+    {
+        if (passwordRequest == null) return BadRequest("Vui lòng thử lại sau!");
+
+        if (!passwordRequest.NewPassword.Equals(passwordRequest.RptNewPassword)) return BadRequest("Mật khẩu nhập lại không chính xác");
+
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        var result = await userManager.ChangePasswordAsync(user, passwordRequest.OldPassword, passwordRequest.NewPassword);
+
+        if (!result.Succeeded)
+            return Unauthorized("Mật khẩu không chính xác!");
+
+        return Ok(result);
     }
 
 

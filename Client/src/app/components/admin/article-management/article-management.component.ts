@@ -48,7 +48,17 @@ export class ArticleManagementComponent implements OnInit {
     this.articleService.changeState(a).subscribe({
       next: _ => {
         this.toastr.success("Thay đổi thành công.");
+        this.getArticles();
       }
     });
+  }
+
+  deleteArticle(a: Article) {
+    this.articleService.deleteAticle(a).subscribe({
+      next: _ => {
+        this.toastr.success("Thay đổi thành công.");
+        this.getArticles();
+      }
+    })
   }
 }

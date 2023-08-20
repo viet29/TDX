@@ -35,6 +35,10 @@ import { AddArticleModalComponent } from './components/modals/add-article-modal/
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { ArticleManagementComponent } from './components/admin/article-management/article-management.component';
 import { ArticlePreviewModalComponent } from './components/admin/modals/article-preview-modal/article-preview-modal.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { FaqManagementComponent } from './components/admin/faq-management/faq-management.component';
+import { AddFaqModalComponent } from './components/admin/modals/add-faq-modal/add-faq-modal.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +60,9 @@ import { ArticlePreviewModalComponent } from './components/admin/modals/article-
     ArticleCardComponent,
     ArticleManagementComponent,
     ArticlePreviewModalComponent,
+    ChangePasswordComponent,
+    FaqManagementComponent,
+    AddFaqModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,10 +79,12 @@ import { ArticlePreviewModalComponent } from './components/admin/modals/article-
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    AccordionModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

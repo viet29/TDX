@@ -83,7 +83,7 @@ namespace API.Repositories
 
         public async Task<ArticleDetailResponse> GetArticle(int id)
         {
-            var article = await context.Articles.FirstOrDefaultAsync(x => x.Id == id);
+            var article = await context.Articles.Include(a => a.User).FirstOrDefaultAsync(x => x.Id == id);
 
             return mapper.Map<ArticleDetailResponse>(article);
         }

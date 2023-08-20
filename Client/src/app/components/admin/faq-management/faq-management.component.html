@@ -1,0 +1,20 @@
+<a (click)="addNewFaq()">Thêm mới</a>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 40%;">Câu hỏi</th>
+                <th style="width: 40%;">Trả lời</th>
+                <th style="width: 10%;">Tạo bởi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let f of faqs">
+                <td>{{f.question}}</td>
+                <td>{{f.answer}}</td>
+                <td>{{f.user}}</td>
+                <td><button class="btn btn-danger" (click)="deleteFaq(f)">Xoá</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

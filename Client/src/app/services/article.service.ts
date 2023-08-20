@@ -32,4 +32,8 @@ export class ArticleService {
     return this.http.get<Article>(this.baseUrl + 'articles/publish/' + article.id);
   }
 
+  deleteAticle(article: Article) {
+    return this.http.delete<Article>(this.baseUrl + 'articles/' + article.id);
+  }
+
 }
