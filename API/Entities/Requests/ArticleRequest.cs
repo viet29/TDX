@@ -1,6 +1,6 @@
 ﻿using API.Entities;
 
-namespace API.DTO
+namespace API.Entities.Requests
 {
     public class ArticleRequest
     {

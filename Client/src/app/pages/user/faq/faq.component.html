@@ -1,0 +1,7 @@
+<div class="container">
+    <accordion>
+        <accordion-group *ngFor="let f of faqs" heading="{{f.question}}">
+            <p>{{ f.answer }}</p>
+        </accordion-group>
+    </accordion>
+</div>

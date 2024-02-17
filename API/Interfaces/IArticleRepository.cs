@@ -1,5 +1,6 @@
-﻿using API.DTO;
-using API.Entities;
+﻿using API.Entities;
+using API.Entities.Requests;
+using API.Entities.Responses;
 
 namespace API.Interfaces
 {

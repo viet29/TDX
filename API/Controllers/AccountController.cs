@@ -1,15 +1,15 @@
 ﻿using API.Data;
 using API.DTO;
 using API.Entities;
+using API.Entities.Requests;
+using API.Entities.Responses;
 using API.Extensions;
 using API.Interfaces;
-using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace API.Controllers;
 
@@ -21,7 +21,6 @@ public class AccountController : BaseApiController
     private readonly SignInManager<User> signInManager;
     private readonly IUserRepository userRepository;
     private readonly IPhotoService photoService;
-    private readonly DataContext context;
 
     public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
         ITokenService tokenService, IMapper mapper, IUserRepository userRepository, IPhotoService photoService, DataContext context)
@@ -32,11 +31,10 @@ public class AccountController : BaseApiController
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.photoService = photoService;
-        this.context = context;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserAuthResponse>> Register(RegisterDTO registerDto)
+    public async Task<ActionResult<UserAuthResponse>> Register(RegisterRequest registerDto)
     {
         if(registerDto.Password != registerDto.RepeatPassword)
         {
@@ -68,7 +66,7 @@ public class AccountController : BaseApiController
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserAuthResponse>> Login(LoginDTO loginDto)
+    public async Task<ActionResult<UserAuthResponse>> Login(LoginRequest loginDto)
     {
         var user = await userManager.Users
             .Include(p => p.AvatarImg)

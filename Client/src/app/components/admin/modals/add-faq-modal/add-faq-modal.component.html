@@ -1,1 +1,27 @@
-<p>add-faq-modal works!</p>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm FAQ</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="addFaqForm" #addFaqForm="ngForm" (ngSubmit)="addFaq()">
+        <div class="row">
+            <label>Câu hỏi</label>
+            <div class="col-12">
+                <input type="text" id="question" name="question" class="form-control" [(ngModel)]="faqModel.question">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <label>Trả lời</label>
+            <div class="col-12">
+                <input type="text" id="answer" name="answer" class="form-control" [(ngModel)]="faqModel.answer">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" (click)="bsModalRef.hide()" class="btn btn-outline-secondary">Đóng</button>
+    <button type="submit" form="addFaqForm" class="btn btn-outline-secondary">Thêm</button>
+</div>

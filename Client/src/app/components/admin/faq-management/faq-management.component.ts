@@ -33,7 +33,10 @@ export class FaqManagementComponent implements OnInit {
 
   deleteFaq(f: Faq) {
     this.faqService.deleteFaq(f).subscribe({
-
+      next: _ => {
+        this.toastr.success("Xoá thành công!");
+        this.getAllFaqs();
+      }
     })
   }
 
@@ -45,5 +48,9 @@ export class FaqManagementComponent implements OnInit {
     }
 
     this.bsModalRef = this.modalService.show(AddFaqModalComponent, config);
+  }
+
+  editFaq(f: Faq) {
+
   }
 }

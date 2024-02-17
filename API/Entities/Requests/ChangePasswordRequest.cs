@@ -1,4 +1,4 @@
-﻿namespace API.DTO
+﻿namespace API.Entities.Requests
 {
     public class ChangePasswordRequest
     {

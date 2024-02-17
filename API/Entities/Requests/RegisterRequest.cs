@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTO
+namespace API.Entities.Requests
 {
-    public class RegisterDTO
+    public class RegisterRequest
     {
         public string UserName { get; set; }
 

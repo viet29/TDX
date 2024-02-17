@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Interfaces;
-using API.DTO;
 using Microsoft.AspNetCore.Authorization;
 using API.Extensions;
+using API.Entities.Responses;
+using API.Entities.Requests;
 
 namespace API.Controllers
 {
@@ -62,7 +63,7 @@ namespace API.Controllers
             articleRes.User = await userRepository.GetUserByUsernameAsync(User.GetUsername());
             var req = await articleRepository.AddOrUpdateArticle(articleRes);
 
-            return CreatedAtAction("GetArticle", new { id = req.Id }, req);
+            return CreatedAtAction("AddArticle", new { id = req.Id }, req);
         }
 
         // DELETE: api/Articles/5

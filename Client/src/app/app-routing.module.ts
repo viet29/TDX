@@ -9,6 +9,7 @@ import { ErrorComponent } from './pages/errors/error/error.component';
 import { AdminPanelComponent } from './pages/admin/admin-panel/admin-panel.component';
 import { adminGuard } from './guards/admin.guard';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
+import { FaqComponent } from './pages/user/faq/faq.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,13 +17,13 @@ const routes: Routes = [
   { path: 'articles', component: ArticleListComponent },
   { path: 'articles/:id', component: ArticleDetailsComponent },
   { path: 'about-us', component: AboutsComponent },
+  { path: 'faq', component: FaqComponent },
   {
     path: '', runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
       { path: 'profile', component: UserProfileComponent },
       { path: 'admin', component: AdminPanelComponent, canActivate: [adminGuard] },
-
     ]
   },
   { path: 'errors', component: ErrorComponent },

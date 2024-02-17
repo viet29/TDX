@@ -39,6 +39,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { FaqManagementComponent } from './components/admin/faq-management/faq-management.component';
 import { AddFaqModalComponent } from './components/admin/modals/add-faq-modal/add-faq-modal.component';
+import { FaqComponent } from './pages/user/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AddFaqModalComponent } from './components/admin/modals/add-faq-modal/ad
     ChangePasswordComponent,
     FaqManagementComponent,
     AddFaqModalComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,

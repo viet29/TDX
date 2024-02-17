@@ -2,9 +2,6 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +21,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v2",
         Description = "Your Api Description"
     });
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
@@ -32,6 +30,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
     });
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {

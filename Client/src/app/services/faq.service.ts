@@ -23,4 +23,8 @@ export class FaqService {
   deleteFaq(a: Faq) {
     return this.http.delete(this.baseUrl + 'faqs/' + a.id);
   }
+
+  updateFaq(a: Faq) {
+    return this.http.put(this.baseUrl + 'faqs', a);
+  }
 }

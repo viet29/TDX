@@ -1,103 +1,81 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Entities;
+using API.Entities.Responses;
+using API.Entities.Requests;
+using API.Interfaces;
+using API.Extensions;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FaqsController : ControllerBase
+    public class FaqsController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly IFaqRepository faqRepository;
+        private readonly IUserRepository userRepository;
 
-        public FaqsController(DataContext context)
+        public FaqsController(IFaqRepository faqRepository, IUserRepository userRepository)
         {
-            _context = context;
+            this.faqRepository = faqRepository;
+            this.userRepository = userRepository;
         }
 
         // GET: api/Faqs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Faq>>> GetFaqs()
+        public async Task<ActionResult<IEnumerable<FaqResponse>>> GetAllFaqs()
         {
-            return await _context.Faqs.Include(u => u.User).ToListAsync();
+            try
+            {
+                var faqs = await faqRepository.GetAllFaqAsync();
+                return Ok(faqs);
+            } catch (Exception)
+            {
+                return BadRequest("Không thể lấy dữ liệu, vui lòng thư lại sau!");
+            }
+            
         }
 
         // GET: api/Faqs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Faq>> GetFaq(int id)
+        public async Task<ActionResult<FaqResponse>> GetFaq(int id)
         {
-            var faq = await _context.Faqs.FindAsync(id);
+            var faq = await faqRepository.GetFaqAsync(id);
 
             if (faq == null)
             {
                 return NotFound();
             }
 
-            return faq;
+            return Ok(faq);
         }
 
-        // PUT: api/Faqs/5
+        // PUT: api/Faqs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFaq(int id, Faq faq)
+        public async Task<IActionResult> PutFaq(FaqRequest faq)
         {
-            if (id != faq.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(faq).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FaqExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            if (!await faqRepository.UpdateFaqAsync(faq))
+                return BadRequest("Thay đổi thất bại!");
             return NoContent();
         }
 
         // POST: api/Faqs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Faq>> PostFaq(Faq faq)
+        public async Task<ActionResult<FaqResponse>> AddFaq(FaqRequest faq)
         {
-            _context.Faqs.Add(faq);
-            await _context.SaveChangesAsync();
+            faq.User = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+            var response = await faqRepository.AddFaqAsync(faq);
 
-            return CreatedAtAction("GetFaq", new { id = faq.Id }, faq);
+            return CreatedAtAction("GetFaq", new { id = response.Id }, response);
         }
 
         // DELETE: api/Faqs/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFaq(int id)
         {
-            var faq = await _context.Faqs.FindAsync(id);
-            if (faq == null)
-            {
-                return NotFound();
-            }
-
-            _context.Faqs.Remove(faq);
-            await _context.SaveChangesAsync();
+            if (!await faqRepository.DeleteFaqAsync(id))
+                return BadRequest();
 
             return NoContent();
-        }
-
-        private bool FaqExists(int id)
-        {
-            return _context.Faqs.Any(e => e.Id == id);
         }
     }
 }

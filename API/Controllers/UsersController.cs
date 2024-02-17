@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using API.Interfaces;
 using AutoMapper;
-using API.DTO;
 using System.Security.Claims;
+using API.Entities.Responses;
 
 namespace API.Controllers
 {
